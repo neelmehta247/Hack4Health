@@ -2,6 +2,7 @@ package me.neelmehta.hack4health;
 
 import android.os.CountDownTimer;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,6 @@ import java.util.ArrayList;
 public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapter.ViewHolder> {
     private ArrayList<TaskModal> mDataset = new ArrayList<>();
     private ArrayList<CustomCountDownTimer> countdownTimers = new ArrayList<>();
-
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
@@ -63,12 +63,13 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
             @Override
             public void onTick(long millisUntilFinished) {
                 holder.time_remaining.setText(String.valueOf
-                        (mDataset.get(position).getTimeInMilliseconds()));
+                        (millisUntilFinished));
+                Log.d("RecyclerView", "Stuff is happening");
             }
 
             @Override
             public void onFinish() {
-
+                holder.time_remaining.setText("0");
             }
         }.start();
     }
