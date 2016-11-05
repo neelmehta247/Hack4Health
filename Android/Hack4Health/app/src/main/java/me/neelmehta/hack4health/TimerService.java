@@ -42,7 +42,6 @@ public class TimerService extends Service {
             timers.add(new CountDownTimer(length, 100) {
                 @Override
                 public void onTick(long millisUntilFinished) {
-                    Log.d("timer", names.get(timers.indexOf(this)));
                 }
 
                 @Override

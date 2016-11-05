@@ -14,8 +14,6 @@ import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private RecyclerView.Adapter recyclerAdapter;
     private TaskModal[] tasks;
 
     @Override
@@ -38,15 +36,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mRecyclerView = (RecyclerView) findViewById(R.id.main_recycler_view);
-        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-        tasks = new TaskModal[] { new TaskModal("Task1", (long) 120, 0, 2),
+        tasks = new TaskModal[]{new TaskModal("Task1", (long) 120, 0, 2),
                 new TaskModal("Task2", (long) 240, 0, 4)};
-
-        recyclerAdapter = new MainRecyclerAdapter(tasks);
+        mRecyclerView.setAdapter(new MainRecyclerAdapter(tasks));
     }
 
     @Override
