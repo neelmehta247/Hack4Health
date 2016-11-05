@@ -51,7 +51,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     // Adding new task
-    public void addContact(TaskModal task) {
+    public void addTask(TaskModal task) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -65,7 +65,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     // Getting single task
-    public TaskModal getContact(int id) {
+    public TaskModal getTask(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_TASKS, new String[]{KEY_ID,
@@ -81,7 +81,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     // Getting all tasks
-    public List<TaskModal> getAllContacts() {
+    public List<TaskModal> getAllTasks() {
         List<TaskModal> tasks = new ArrayList<>();
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_TASKS;
@@ -107,7 +107,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     // Updating single task
-    public int updateContact(TaskModal task) {
+    public int updateTask(TaskModal task) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
