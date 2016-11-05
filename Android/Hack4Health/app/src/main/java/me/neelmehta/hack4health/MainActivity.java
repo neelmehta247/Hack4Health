@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView.Adapter recyclerAdapter;
+    private TaskModal[] tasks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +44,10 @@ public class MainActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        recyclerAdapter = new MainRecyclerAdapter(this);
+        tasks = new TaskModal[] { new TaskModal("Task1", (long) 120, 0, 2),
+                new TaskModal("Task2", (long) 240, 0, 4)};
+
+        recyclerAdapter = new MainRecyclerAdapter(tasks);
     }
 
     @Override
