@@ -10,11 +10,6 @@ public class TaskModal {
     private long timeInMilliseconds;
     private int hours;
     private int minutes;
-
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
-    }
-
     private long timestamp;
 
     // Constructor
@@ -25,12 +20,10 @@ public class TaskModal {
         this.minutes = minutes;
     }
 
-    // Getters
     public String getName() {
         return name;
     }
 
-    // Setters
     public void setName(String name) {
         this.name = name;
     }
@@ -57,5 +50,13 @@ public class TaskModal {
 
     public void setMinutes(int minutes) {
         this.minutes = minutes;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 }
