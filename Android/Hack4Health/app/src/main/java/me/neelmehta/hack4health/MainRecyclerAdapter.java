@@ -73,6 +73,11 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
         }.start();
     }
 
+    @Override
+    public int getItemCount() {
+        return mDataset.size();
+    }
+
     private String millisToTime(long millisUntilFinished) {
         String formatted_time = "";
         long millis = millisUntilFinished;
@@ -80,11 +85,6 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                 TimeUnit.MILLISECONDS.toSeconds(millis)
                         - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
         return formatted_time;
-    }
-
-    @Override
-    public int getItemCount() {
-        return mDataset.size();
     }
 }
 

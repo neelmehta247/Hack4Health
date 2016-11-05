@@ -38,8 +38,8 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.main_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        tasks.add(new TaskModal("Task1", (long) 1200));
-        tasks.add(new TaskModal("Task1", (long) 2400));
+        tasks.add(new TaskModal((long) 123832, "Task1", (long) 1200, (long) 120032214));
+        tasks.add(new TaskModal((long) 123223, "Task1", (long) 2400, (long) 120023412));
         mRecyclerView.setAdapter(new MainRecyclerAdapter(tasks));
     }
 
