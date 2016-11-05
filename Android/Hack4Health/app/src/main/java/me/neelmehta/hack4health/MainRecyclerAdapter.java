@@ -13,24 +13,12 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
     private TaskModal[] mDataset;
 
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
-        TextView title, time_remaining;
-
-        ViewHolder(View v) {
-            super(v);
-            title = (TextView) v.findViewById(R.id.item_title);
-            time_remaining = (TextView) v.findViewById(R.id.time_remaining);
-        }
-    }
-
     public MainRecyclerAdapter(TaskModal[] tasksDataSet) {
         mDataset = tasksDataSet;
     }
 
     @Override
-    public MainRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                             int viewType) {
+    public MainRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.main_recycler_view_item, parent, false);
@@ -49,6 +37,17 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
     @Override
     public int getItemCount() {
         return mDataset.length;
+    }
+
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        // each data item is just a string in this case
+        TextView title, time_remaining;
+
+        ViewHolder(View v) {
+            super(v);
+            title = (TextView) v.findViewById(R.id.item_title);
+            time_remaining = (TextView) v.findViewById(R.id.time_remaining);
+        }
     }
 }
 

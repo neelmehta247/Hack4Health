@@ -12,11 +12,11 @@ public class TaskModal {
     private int minutes;
 
     // Constructor
-    public TaskModal (String _name, long _timeInMilliseconds, int _hours, int _minutes) {
-        name = _name;
-        timeInMilliseconds = _timeInMilliseconds;
-        hours = _hours;
-        minutes = _minutes;
+    public TaskModal(String name, long timeInMilliseconds, int hours, int minutes) {
+        this.name = name;
+        this.timeInMilliseconds = timeInMilliseconds;
+        this.hours = hours;
+        this.minutes = minutes;
     }
 
     // Getters
@@ -24,29 +24,29 @@ public class TaskModal {
         return name;
     }
 
-    public long getTimeInMilliseconds() {
-        return timeInMilliseconds;
-    }
-
-    public int getHours() {
-        return hours;
-    }
-
-    public int getMinutes() {
-        return minutes;
-    }
-
     // Setters
     public void setName(String name) {
         this.name = name;
+    }
+
+    public long getTimeInMilliseconds() {
+        return timeInMilliseconds;
     }
 
     public void setTimeInMilliseconds(long timeInMilliseconds) {
         this.timeInMilliseconds = timeInMilliseconds;
     }
 
+    public int getHours() {
+        return hours;
+    }
+
     public void setHours(int hours) {
         this.hours = hours;
+    }
+
+    public int getMinutes() {
+        return minutes;
     }
 
     public void setMinutes(int minutes) {
