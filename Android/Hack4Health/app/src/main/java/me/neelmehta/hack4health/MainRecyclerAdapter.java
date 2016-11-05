@@ -1,20 +1,51 @@
 package me.neelmehta.hack4health;
 
+import android.os.CountDownTimer;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 /**
  * Created by rahuldominic on 05/11/16.
  */
 public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapter.ViewHolder> {
-    private TaskModal[] mDataset;
+    private ArrayList<TaskModal> mDataset = new ArrayList<>();
+    private ArrayList<CustomCountDownTimer> countdownTimers = new ArrayList<>();
 
 
+<<<<<<< Updated upstream
     public MainRecyclerAdapter(TaskModal[] tasksDataSet) {
+=======
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        // each data item is just a string in this case
+        TextView title, time_remaining;
+
+        ViewHolder(View v) {
+            super(v);
+            title = (TextView) v.findViewById(R.id.item_title);
+            time_remaining = (TextView) v.findViewById(R.id.time_remaining);
+        }
+    }
+
+    public MainRecyclerAdapter(ArrayList<TaskModal> tasksDataSet) {
+>>>>>>> Stashed changes
         mDataset = tasksDataSet;
+        for (int i = 0; i < mDataset.size(); i++) {
+            countdownTimers.add(new CustomCountDownTimer(mDataset.get(i).getTimeInMilliseconds(), 100) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+
+                }
+
+                @Override
+                public void onFinish() {
+                }
+            }.start());
+        }
     }
 
     @Override
@@ -28,15 +59,27 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.title.setText(mDataset[position].getName());
-        holder.time_remaining.setText(String.valueOf(mDataset[position].getTimeInMilliseconds()));
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
+        holder.title.setText(mDataset.get(position).getName());
 
+        // Set CountDownTimer for holder
+        CountDownTimer timer = new CountDownTimer(countdownTimers.get(position).mMillisInFuture, 100) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                holder.time_remaining.setText(String.valueOf
+                        (mDataset.get(position).getTimeInMilliseconds()));
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        };
     }
 
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return mDataset.size();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

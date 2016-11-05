@@ -11,9 +11,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
-    private TaskModal[] tasks;
+    private ArrayList<TaskModal> tasks = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +38,8 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.main_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        tasks = new TaskModal[]{new TaskModal("Task1", (long) 120, 0, 2),
-                new TaskModal("Task2", (long) 240, 0, 4)};
+        tasks.add(new TaskModal("Task1", (long) 120, 0, 2));
+        tasks.add(new TaskModal("Task1", (long) 240, 0, 4));
         mRecyclerView.setAdapter(new MainRecyclerAdapter(tasks));
     }
 
