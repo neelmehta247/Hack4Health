@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
-
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView.Adapter recyclerAdapter;
@@ -71,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 
     // Creates a new Intent for the TimerService with the length and name
     private void createTimer(long length, String name) {
