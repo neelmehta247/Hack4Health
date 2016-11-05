@@ -2,7 +2,6 @@ package me.neelmehta.hack4health;
 
 import android.os.CountDownTimer;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,7 +63,6 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
             public void onTick(long millisUntilFinished) {
                 holder.time_remaining.setText(String.valueOf
                         (millisUntilFinished));
-                Log.d("RecyclerView", "Stuff is happening");
             }
 
             @Override
