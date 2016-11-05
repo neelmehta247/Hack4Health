@@ -16,11 +16,14 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by rahuldominic on 05/11/16.
  */
-class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapter.ViewHolder> {
+public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapter.ViewHolder> {
     private ArrayList<TaskModal> mDataset = new ArrayList<>();
     private ArrayList<CustomCountDownTimer> countdownTimers = new ArrayList<>();
+    private Context context;
 
     MainRecyclerAdapter(Context context, ArrayList<TaskModal> tasksDataSet) {
+        this.context = context;
+
         mDataset = tasksDataSet;
 
         Collections.sort(mDataset, new Comparator<TaskModal>() {
@@ -34,10 +37,35 @@ class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapter.ViewH
         for (TaskModal task : mDataset) {
             if (task.getTimeInMilliseconds() - (System.currentTimeMillis() - task.getTimestamp()) < 0) {
                 task.setTimeInMilliseconds(0);
-            } else {
-                task.setTimeInMilliseconds(task.getTimeInMilliseconds() - (System.currentTimeMillis() - task.getTimestamp()));
             }
         }
+
+        ArrayList<TaskModal> earlyTasks = new ArrayList<>();
+        for (int i = 0; i < mDataset.size(); i++) {
+            if (mDataset.get(i).getTimeInMilliseconds() - (System.currentTimeMillis() - mDataset.get(i).getTimestamp()) > 0) {
+                earlyTasks.add(mDataset.get(i));
+            } else {
+                Collections.sort(earlyTasks, new Comparator<TaskModal>() {
+                    @Override
+                    public int compare(TaskModal o1, TaskModal o2) {
+                        return (int) ((o1.getTimeInMilliseconds() - (System.currentTimeMillis() - o1.getTimestamp())) -
+                                (o2.getTimeInMilliseconds() - (System.currentTimeMillis() - o2.getTimestamp())));
+                    }
+                });
+
+                for (TaskModal earlyTask : earlyTasks) {
+                    earlyTask.setTimeInMilliseconds(earlyTask.getTimeInMilliseconds() - (System.currentTimeMillis() - earlyTask.getTimestamp()));
+                }
+
+                for (int j = i; j < mDataset.size(); j++) {
+                    earlyTasks.add(mDataset.get(j));
+                }
+
+                break;
+            }
+        }
+
+        mDataset = earlyTasks;
 
         for (TaskModal task : mDataset) {
             if (task.getTimeInMilliseconds() != 0) {
@@ -72,19 +100,26 @@ class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapter.ViewH
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.title.setText(mDataset.get(position).getName());
 
-        // Set CountDownTimer for holder
-        new CountDownTimer(countdownTimers.get(position).mMillisInFuture, 100) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                holder.time_remaining.setText(String.valueOf
-                        (millisToTime(millisUntilFinished)));
-            }
+        if (holder.countDownTimer != null)
+            holder.countDownTimer.cancel();
 
-            @Override
-            public void onFinish() {
-                holder.time_remaining.setText("0");
-            }
-        }.start();
+        // Set CountDownTimer for holder
+        if (countdownTimers.get(position).mMillisInFuture != 0) {
+            holder.countDownTimer = new CountDownTimer(mDataset.get(position).getTimeInMilliseconds()
+                    - (System.currentTimeMillis() - mDataset.get(position).getTimestamp()), 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    holder.time_remaining.setText(String.valueOf
+                            (millisToTime(millisUntilFinished)));
+                }
+
+                @Override
+                public void onFinish() {
+                    holder.time_remaining.setText("0");
+                    ((MainActivity) context).mRecyclerView.setAdapter(new MainRecyclerAdapter(context, mDataset));
+                }
+            }.start();
+        }
     }
 
     @Override
@@ -103,6 +138,7 @@ class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapter.ViewH
     static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         TextView title, time_remaining;
+        CountDownTimer countDownTimer;
 
         ViewHolder(View v) {
             super(v);
