@@ -59,7 +59,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
         holder.title.setText(mDataset.get(position).getName());
 
         // Set CountDownTimer for holder
-        CountDownTimer timer = new CountDownTimer(countdownTimers.get(position).mMillisInFuture, 100) {
+        new CountDownTimer(countdownTimers.get(position).mMillisInFuture, 100) {
             @Override
             public void onTick(long millisUntilFinished) {
                 holder.time_remaining.setText(String.valueOf
@@ -70,7 +70,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
             public void onFinish() {
 
             }
-        };
+        }.start();
     }
 
     @Override
