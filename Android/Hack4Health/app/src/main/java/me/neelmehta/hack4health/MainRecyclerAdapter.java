@@ -74,11 +74,10 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
     }
 
     private String millisToTime(long millisUntilFinished) {
-        String formatted_time = "";
-        long millis = millisUntilFinished;
-        formatted_time = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toMinutes(millis),
-                TimeUnit.MILLISECONDS.toSeconds(millis)
-                        - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
+        String formatted_time;
+        formatted_time = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished),
+                TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)
+                        - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)));
         return formatted_time;
     }
 
