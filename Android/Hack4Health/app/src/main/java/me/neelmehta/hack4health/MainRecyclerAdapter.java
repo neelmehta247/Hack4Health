@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by rahuldominic on 05/11/16.
@@ -62,7 +63,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
             @Override
             public void onTick(long millisUntilFinished) {
                 holder.time_remaining.setText(String.valueOf
-                        (millisUntilFinished));
+                        (millisToTime(millisUntilFinished)));
             }
 
             @Override
@@ -70,6 +71,15 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                 holder.time_remaining.setText("0");
             }
         }.start();
+    }
+
+    private String millisToTime(long millisUntilFinished) {
+        String formatted_time = "";
+        long millis = 3600000;
+        formatted_time = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toMinutes(millis),
+                TimeUnit.MILLISECONDS.toSeconds(millis)
+                        - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
+        return formatted_time;
     }
 
     @Override

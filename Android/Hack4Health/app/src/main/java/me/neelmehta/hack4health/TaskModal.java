@@ -8,16 +8,12 @@ public class TaskModal {
     // Task variables
     private String name;
     private long timeInMilliseconds;
-    private int hours;
-    private int minutes;
     private long timestamp;
 
     // Constructor
-    public TaskModal(String name, long timeInMilliseconds, int hours, int minutes) {
+    public TaskModal(String name, long timeInMilliseconds) {
         this.name = name;
         this.timeInMilliseconds = timeInMilliseconds;
-        this.hours = hours;
-        this.minutes = minutes;
     }
 
     public String getName() {
@@ -34,22 +30,6 @@ public class TaskModal {
 
     public void setTimeInMilliseconds(long timeInMilliseconds) {
         this.timeInMilliseconds = timeInMilliseconds;
-    }
-
-    public int getHours() {
-        return hours;
-    }
-
-    public void setHours(int hours) {
-        this.hours = hours;
-    }
-
-    public int getMinutes() {
-        return minutes;
-    }
-
-    public void setMinutes(int minutes) {
-        this.minutes = minutes;
     }
 
     public long getTimestamp() {
