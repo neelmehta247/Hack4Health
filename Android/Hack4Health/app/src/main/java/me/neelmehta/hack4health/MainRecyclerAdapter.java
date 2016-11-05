@@ -17,9 +17,6 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
     private ArrayList<CustomCountDownTimer> countdownTimers = new ArrayList<>();
 
 
-<<<<<<< Updated upstream
-    public MainRecyclerAdapter(TaskModal[] tasksDataSet) {
-=======
     static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         TextView title, time_remaining;
@@ -32,7 +29,6 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
     }
 
     public MainRecyclerAdapter(ArrayList<TaskModal> tasksDataSet) {
->>>>>>> Stashed changes
         mDataset = tasksDataSet;
         for (int i = 0; i < mDataset.size(); i++) {
             countdownTimers.add(new CustomCountDownTimer(mDataset.get(i).getTimeInMilliseconds(), 100) {
@@ -80,17 +76,6 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
     @Override
     public int getItemCount() {
         return mDataset.size();
-    }
-
-    static class ViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
-        TextView title, time_remaining;
-
-        ViewHolder(View v) {
-            super(v);
-            title = (TextView) v.findViewById(R.id.item_title);
-            time_remaining = (TextView) v.findViewById(R.id.time_remaining);
-        }
     }
 }
 
