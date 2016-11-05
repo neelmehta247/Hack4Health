@@ -1,5 +1,6 @@
 package me.neelmehta.hack4health;
 
+import android.content.Context;
 import android.os.CountDownTimer;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,33 +9,46 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.concurrent.TimeUnit;
 
 /**
  * Created by rahuldominic on 05/11/16.
  */
-public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapter.ViewHolder> {
+class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapter.ViewHolder> {
     private ArrayList<TaskModal> mDataset = new ArrayList<>();
     private ArrayList<CustomCountDownTimer> countdownTimers = new ArrayList<>();
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
-        TextView title, time_remaining;
-
-        ViewHolder(View v) {
-            super(v);
-            title = (TextView) v.findViewById(R.id.item_title);
-            time_remaining = (TextView) v.findViewById(R.id.time_remaining);
-        }
-    }
-
-    public MainRecyclerAdapter(ArrayList<TaskModal> tasksDataSet) {
+    MainRecyclerAdapter(Context context, ArrayList<TaskModal> tasksDataSet) {
         mDataset = tasksDataSet;
-        for (int i = 0; i < mDataset.size(); i++) {
-            countdownTimers.add(new CustomCountDownTimer(mDataset.get(i).getTimeInMilliseconds(), 100) {
+
+        Collections.sort(mDataset, new Comparator<TaskModal>() {
+            @Override
+            public int compare(TaskModal o1, TaskModal o2) {
+                return (int) -((o1.getTimeInMilliseconds() - (System.currentTimeMillis() - o1.getTimestamp())) -
+                        (o2.getTimeInMilliseconds() - (System.currentTimeMillis() - o2.getTimestamp())));
+            }
+        });
+
+        for (TaskModal task : mDataset) {
+            if (task.getTimeInMilliseconds() - (System.currentTimeMillis() - task.getTimestamp()) < 0) {
+                task.setTimeInMilliseconds(0);
+            } else {
+                task.setTimeInMilliseconds(task.getTimeInMilliseconds() - (System.currentTimeMillis() - task.getTimestamp()));
+            }
+        }
+
+        for (TaskModal task : mDataset) {
+            if (task.getTimeInMilliseconds() != 0) {
+                ((MainActivity) context).createTimer(task);
+            }
+        }
+
+        for (TaskModal task : mDataset) {
+            countdownTimers.add(new CustomCountDownTimer(task.getTimeInMilliseconds(), 100) {
                 @Override
                 public void onTick(long millisUntilFinished) {
-
                 }
 
                 @Override
@@ -84,6 +98,17 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                 TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)
                         - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)));
         return formatted_time;
+    }
+
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        // each data item is just a string in this case
+        TextView title, time_remaining;
+
+        ViewHolder(View v) {
+            super(v);
+            title = (TextView) v.findViewById(R.id.item_title);
+            time_remaining = (TextView) v.findViewById(R.id.time_remaining);
+        }
     }
 }
 

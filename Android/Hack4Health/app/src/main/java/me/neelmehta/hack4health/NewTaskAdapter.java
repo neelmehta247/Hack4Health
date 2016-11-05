@@ -1,5 +1,6 @@
 package me.neelmehta.hack4health;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -23,9 +24,11 @@ public class NewTaskAdapter extends RecyclerView.Adapter<NewTaskViewholder> {
     private ArrayList<String> tasks;
     private SharedPreferences mySharedPreferences;
     private ArrayList<Long> times;
+    private DatabaseHandler dbHandler;
 
     public NewTaskAdapter(Context context, ArrayList<String> tasks, ArrayList<Long> times) {
-        inflater = LayoutInflater.from(context);
+        this.inflater = LayoutInflater.from(context);
+        this.dbHandler = DatabaseHandler.getSingleton(context);
         this.mySharedPreferences = context.getSharedPreferences("tasks", Context.MODE_PRIVATE);
         this.context = context;
         this.tasks = tasks;
@@ -64,6 +67,12 @@ public class NewTaskAdapter extends RecyclerView.Adapter<NewTaskViewholder> {
                                                 + "|" + taskName.getText().toString());
                                         editor.putLong(taskName.getText().toString(), Long.valueOf(time.getText().toString()) * 60000);
                                         editor.apply();
+
+                                        dbHandler.addTask(new TaskModal(taskName.getText().toString(),
+                                                Long.valueOf(time.getText().toString()) * 60000, System.currentTimeMillis()));
+
+                                        ((Activity) context).setResult(1);
+                                        ((Activity) context).finish();
                                     }
                                 }
                             })
@@ -99,6 +108,12 @@ public class NewTaskAdapter extends RecyclerView.Adapter<NewTaskViewholder> {
                                         System.out.println(Long.valueOf(time.getText().toString()));
                                         editor.putLong(taskName.getText().toString(), Long.valueOf(time.getText().toString()) * 60000);
                                         editor.apply();
+
+                                        dbHandler.addTask(new TaskModal(taskName.getText().toString(),
+                                                Long.valueOf(time.getText().toString()) * 60000, System.currentTimeMillis()));
+
+                                        ((Activity) context).setResult(1);
+                                        ((Activity) context).finish();
                                     }
                                 }
                             })

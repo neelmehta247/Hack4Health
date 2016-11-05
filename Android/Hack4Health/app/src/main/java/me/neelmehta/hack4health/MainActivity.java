@@ -14,8 +14,8 @@ import android.view.View;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    private RecyclerView mRecyclerView;
-    private ArrayList<TaskModal> tasks = new ArrayList<>();
+    public RecyclerView mRecyclerView;
+    private DatabaseHandler dbHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,23 +24,27 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        createTimer(10000, "Neel");
-        createTimer(5000, "Rahul");
+        dbHandler = DatabaseHandler.getSingleton(this);
+
+        ArrayList<TaskModal> tasks = dbHandler.getAllTasks();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, NewTaskActivity.class));
+                startActivityForResult(new Intent(MainActivity.this, NewTaskActivity.class), 1);
             }
         });
 
         mRecyclerView = (RecyclerView) findViewById(R.id.main_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setAdapter(new MainRecyclerAdapter(this, tasks));
+    }
 
-        tasks.add(new TaskModal((long) 123832, "Task1", (long) 1200, (long) 120032214));
-        tasks.add(new TaskModal((long) 123223, "Task1", (long) 2400, (long) 120023412));
-        mRecyclerView.setAdapter(new MainRecyclerAdapter(tasks));
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mRecyclerView.setAdapter(new MainRecyclerAdapter(this, dbHandler.getAllTasks()));
     }
 
     @Override
@@ -66,10 +70,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Creates a new Intent for the TimerService with the length and name
-    private void createTimer(long length, String name) {
+    public void createTimer(TaskModal task) {
         Intent serviceIntent = new Intent(this, TimerService.class);
-        serviceIntent.putExtra("length", length);
-        serviceIntent.putExtra("name", name);
+        serviceIntent.putExtra("task", task);
         startService(serviceIntent);
     }
 }

@@ -34,12 +34,11 @@ public class TimerService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent != null) {
             // Fetch length and name from intent
-            long length = intent.getLongExtra("length", 0);
-            final String name = intent.getStringExtra("name");
+            final TaskModal task = intent.getParcelableExtra("task");
 
             // Add to the ArrayLists
-            names.add(name);
-            timers.add(new CountDownTimer(length, 100) {
+            names.add(task.getName());
+            timers.add(new CountDownTimer(task.getTimeInMilliseconds(), 100) {
                 @Override
                 public void onTick(long millisUntilFinished) {
                 }
@@ -51,8 +50,8 @@ public class TimerService extends Service {
                     NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(TimerService.this)
                             .setSmallIcon(R.mipmap.goodshows_logo_white)
                             .setAutoCancel(true)
-                            .setContentTitle(getString(R.string.app_name))
-                            .setContentText(names.get(timers.indexOf(this)))
+                            .setContentTitle(names.get(timers.indexOf(this)))
+                            .setContentText(names.get(timers.indexOf(this)) + " should be done. Don't forget to check on it.")
                             .setLights(Color.BLUE, 2000, 2000)
                             .setVibrate(new long[]{250, 250, 250, 250})
                             .setSound(defaultSoundUri);
@@ -60,9 +59,7 @@ public class TimerService extends Service {
                     NotificationManager notificationManager =
                             (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-                    notificationManager.notify(5, notificationBuilder.build());
-
-                    Log.d("service", "notification sent");
+                    notificationManager.notify((int) task.getId(), notificationBuilder.build());
                 }
             }.start());
         } else {
