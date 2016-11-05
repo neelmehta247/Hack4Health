@@ -11,6 +11,12 @@ public class TaskModal {
     private int hours;
     private int minutes;
 
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    private long timestamp;
+
     // Constructor
     public TaskModal (String _name, long _timeInMilliseconds, int _hours, int _minutes) {
         name = _name;
