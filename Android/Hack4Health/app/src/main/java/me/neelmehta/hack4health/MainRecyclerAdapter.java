@@ -1,6 +1,7 @@
 package me.neelmehta.hack4health;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,6 +17,9 @@ import java.util.concurrent.TimeUnit;
  * Created by rahuldominic on 05/11/16.
  */
 public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private int[] colors = {Color.parseColor("#46B0EB"), Color.parseColor("#673AB7"),
+            Color.parseColor("#C2185B"), Color.parseColor("#E64A19"), Color.parseColor("#795548"),
+            Color.parseColor("#9C27B0"), Color.parseColor("#009688")};
     private ArrayList<TaskModal> mDataset = new ArrayList<>();
     private ArrayList<CustomCountDownTimer> countdownTimers = new ArrayList<>();
     private Context context;
@@ -152,6 +156,10 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             final MainRVActiveViewholder holder = (MainRVActiveViewholder) viewHolder;
             holder.title.setText(mDataset.get(position).getName());
 
+            float random = (float) (Math.random() * 6);
+
+            holder.linearLayout.setBackgroundColor(colors[(int) random]);
+
             holder.finishTaskButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -192,7 +200,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemViewType(int position) {
-        return mDataset.get(position).getTimeInMilliseconds() == 0 ? INACTIVE : ACTIVE;
+        return mDataset.get(position).getTimeInMilliseconds() <= 0 ? INACTIVE : ACTIVE;
     }
 
     @Override
