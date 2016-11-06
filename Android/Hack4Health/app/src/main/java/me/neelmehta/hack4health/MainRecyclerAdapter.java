@@ -25,10 +25,12 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private ArrayList<CustomCountDownTimer> countdownTimers = new ArrayList<>();
     private Context context;
     private final int ACTIVE = 0, INACTIVE = 1;
+    private DatabaseHandler dbHandler;
 
     MainRecyclerAdapter(Context context, ArrayList<TaskModal> tasksDataSet) {
         this.context = context;
 
+        dbHandler = DatabaseHandler.getSingleton(context);
         mDataset = tasksDataSet;
 
         Collections.sort(mDataset, new Comparator<TaskModal>() {
@@ -169,9 +171,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 holder.imageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_add_white_24dp));
             }
 
-            float random = (float) (Math.random() * 6);
-
-            holder.linearLayout.setBackgroundColor(colors[(int) random]);
+            holder.linearLayout.setBackgroundColor(colors[position % 7]);
 
             holder.finishTaskButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -179,6 +179,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     if (holder.countDownTimer != null)
                         holder.countDownTimer.cancel();
                     mDataset.get(position).setTimeInMilliseconds(0);
+                    dbHandler.updateTask(mDataset.get(position));
                     ((MainActivity) context).removeTimer(mDataset.get(position));
                     update();
                 }
