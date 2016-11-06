@@ -35,8 +35,9 @@
             android:layout_height="100dp"
             android:layout_gravity="center"
             android:background="#2C3E50"
-            android:fontFamily="sans-serif-light"
-            android:text="More Time"
+            android:fontFamily="sans-serif-medium"
+            android:text="More\nTime"
+            android:textAllCaps="false"
             android:textColor="#fff"
             android:textSize="30sp" />
     </LinearLayout>
@@ -65,6 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:ellipsize="end"
+                android:fontFamily="sans-serif-medium"
                 android:maxLines="1"
                 android:padding="10dp"
                 android:text="fuebiw"
@@ -77,8 +79,9 @@
             android:layout_width="150dp"
             android:layout_height="100dp"
             android:background="#41D377"
-            android:fontFamily="sans-serif-light"
+            android:fontFamily="sans-serif-medium"
             android:text="Finish Task"
+            android:textAllCaps="false"
             android:textColor="#fff"
             android:textSize="30sp" />
     </LinearLayout>
