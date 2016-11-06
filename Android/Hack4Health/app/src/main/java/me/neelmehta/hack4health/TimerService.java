@@ -1,6 +1,7 @@
 package me.neelmehta.hack4health;
 
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -46,6 +47,11 @@ public class TimerService extends Service {
 
                     @Override
                     public void onFinish() {
+                        Intent intent = new Intent(TimerService.this, MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        PendingIntent pendingIntent = PendingIntent.getActivity(TimerService.this, (int) task.getId(), intent,
+                                PendingIntent.FLAG_ONE_SHOT);
+
                         // Send notification on finish
                         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(TimerService.this)
@@ -56,7 +62,8 @@ public class TimerService extends Service {
                                         + " should be done. Don't forget to check on it.")
                                 .setLights(Color.BLUE, 2000, 2000)
                                 .setVibrate(new long[]{250, 250, 250, 250})
-                                .setSound(defaultSoundUri);
+                                .setSound(defaultSoundUri)
+                                .setContentIntent(pendingIntent);
 
                         NotificationManager notificationManager =
                                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
