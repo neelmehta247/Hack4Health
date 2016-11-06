@@ -8,44 +8,67 @@
     android:orientation="vertical"
     android:paddingBottom="10dp">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/timeBackground"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#46B0EB"
         android:orientation="horizontal"
-        android:padding="16dp">
-
-        <TextView
-            android:id="@+id/item_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="fuebiw"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+        android:padding="5dp">
 
         <TextView
             android:id="@+id/time_remaining"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
+            android:layout_weight="1"
             android:ellipsize="end"
             android:maxLines="1"
+            android:shadowColor="@color/colorPrimaryDark"
+            android:shadowDy="5"
+            android:shadowRadius="17"
             android:text="fuebiw"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-    </RelativeLayout>
+            android:textColor="#fff"
+            android:textSize="70sp" />
 
-    <Button
-        android:id="@+id/finishButton"
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:background="#2C3E50"
+            android:fontFamily="sans-serif-light"
+            android:text="More Time"
+            android:textColor="#fff"
+            android:textSize="30sp" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginStart="16dp"
-        android:text="Finish Task" />
+        android:clipToPadding="false"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/item_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:padding="10dp"
+            android:text="fuebiw"
+            android:textColor="#4A4A4A"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/finishButton"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:background="#41D377"
+            android:fontFamily="sans-serif-light"
+            android:text="Finish Task"
+            android:textColor="#fff"
+            android:textSize="30sp" />
+    </LinearLayout>
 </LinearLayout>
