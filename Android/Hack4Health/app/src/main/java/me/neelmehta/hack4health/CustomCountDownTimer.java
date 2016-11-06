@@ -22,66 +22,20 @@ import android.os.SystemClock;
 
 public abstract class CustomCountDownTimer {
 
+    private static final int MSG = 1;
     /**
      * Millis since epoch when alarm should stop.
      */
     public final long mMillisInFuture;
-
     /**
      * The interval in millis that the user receives callbacks
      */
     private final long mCountdownInterval;
-
     private long mStopTimeInFuture;
-
     /**
      * boolean representing if the timer was cancelled
      */
     private boolean mCancelled = false;
-
-    public CustomCountDownTimer(long millisInFuture, long countDownInterval) {
-        mMillisInFuture = millisInFuture;
-        mCountdownInterval = countDownInterval;
-    }
-
-    /**
-     * Cancel the countdown.
-     */
-    public synchronized final void cancel() {
-        mCancelled = true;
-        mHandler.removeMessages(MSG);
-    }
-
-    /**
-     * Start the countdown.
-     */
-    public synchronized final CustomCountDownTimer start() {
-        mCancelled = false;
-        if (mMillisInFuture <= 0) {
-            onFinish();
-            return this;
-        }
-        mStopTimeInFuture = SystemClock.elapsedRealtime() + mMillisInFuture;
-        mHandler.sendMessage(mHandler.obtainMessage(MSG));
-        return this;
-    }
-
-
-    /**
-     * Callback fired on regular interval.
-     * @param millisUntilFinished The amount of time until finished.
-     */
-    public abstract void onTick(long millisUntilFinished);
-
-    /**
-     * Callback fired when the time is up.
-     */
-    public abstract void onFinish();
-
-
-    private static final int MSG = 1;
-
-
     // handles counting down
     private Handler mHandler = new Handler() {
 
@@ -116,4 +70,43 @@ public abstract class CustomCountDownTimer {
             }
         }
     };
+
+    public CustomCountDownTimer(long millisInFuture, long countDownInterval) {
+        mMillisInFuture = millisInFuture;
+        mCountdownInterval = countDownInterval;
+    }
+
+    /**
+     * Cancel the countdown.
+     */
+    public synchronized final void cancel() {
+        mCancelled = true;
+        mHandler.removeMessages(MSG);
+    }
+
+    /**
+     * Start the countdown.
+     */
+    public synchronized final CustomCountDownTimer start() {
+        mCancelled = false;
+        if (mMillisInFuture <= 0) {
+            onFinish();
+            return this;
+        }
+        mStopTimeInFuture = SystemClock.elapsedRealtime() + mMillisInFuture;
+        mHandler.sendMessage(mHandler.obtainMessage(MSG));
+        return this;
+    }
+
+    /**
+     * Callback fired on regular interval.
+     *
+     * @param millisUntilFinished The amount of time until finished.
+     */
+    public abstract void onTick(long millisUntilFinished);
+
+    /**
+     * Callback fired when the time is up.
+     */
+    public abstract void onFinish();
 }

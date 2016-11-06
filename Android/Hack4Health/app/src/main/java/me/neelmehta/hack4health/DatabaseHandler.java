@@ -3,12 +3,10 @@ package me.neelmehta.hack4health;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by rahuldominic on 05/11/16.
@@ -27,21 +25,29 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String TABLE_TASKS = "tasks";
 
     // Tasks Table Columns names
-    private static final String KEY_ID = "id";
+    private static final String KEY_ID = "_id";
     private static final String KEY_NAME = "name";
     private static final String KEY_TIMESTAMP = "timestamp";
     private static final String KEY_TASK_TIME = "task_time";
 
+    private static DatabaseHandler mSingleton;
+
     public DatabaseHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
+    }
+
+    public static DatabaseHandler getSingleton(Context context) {
+        if (mSingleton == null)
+            mSingleton = new DatabaseHandler(context, DATABASE_NAME, null, DATABASE_VERSION);
+        return mSingleton;
     }
 
     // Creating Tables
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_TASKS + "("
-                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT,"
-                + KEY_TIMESTAMP + " INTEGER" + KEY_TASK_TIME + " INTEGER" + ")";
+                + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + KEY_NAME + " TEXT,"
+                + KEY_TIMESTAMP + " INTEGER, " + KEY_TASK_TIME + " INTEGER" + ")";
         db.execSQL(CREATE_CONTACTS_TABLE);
     }
 
@@ -81,8 +87,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     // Getting all tasks
-    public List<TaskModal> getAllTasks() {
-        List<TaskModal> tasks = new ArrayList<>();
+    public ArrayList<TaskModal> getAllTasks() {
+        ArrayList<TaskModal> tasks = new ArrayList<>();
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_TASKS;
 
