@@ -179,7 +179,6 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     @Override
                     public void onFinish() {
                         mDataset.get(position).setTimeInMilliseconds(0);
-                        ((MainActivity) context).removeTimer(mDataset.get(position));
                         update();
                     }
                 }.start();
