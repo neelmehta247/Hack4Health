@@ -205,6 +205,12 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     }
                 }.start();
             }
+
+            if (position == getItemCount() || (getItemViewType(position + 1) != INACTIVE)) {
+                holder.bottomBar.setVisibility(View.GONE);
+            } else {
+                holder.bottomBar.setVisibility(View.VISIBLE);
+            }
         } else {
             final MainRVInactiveViewholder holder = (MainRVInactiveViewholder) viewHolder;
             holder.title.setText(mDataset.get(position).getName());

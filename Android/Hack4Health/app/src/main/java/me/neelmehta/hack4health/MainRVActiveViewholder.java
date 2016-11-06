@@ -16,7 +16,7 @@ public class MainRVActiveViewholder extends RecyclerView.ViewHolder {
     TextView title, time_remaining;
     ImageView imageView;
     Button finishTaskButton;
-    LinearLayout linearLayout;
+    LinearLayout linearLayout, bottomBar;
     CountDownTimer countDownTimer;
 
     public MainRVActiveViewholder(View itemView) {
@@ -26,5 +26,6 @@ public class MainRVActiveViewholder extends RecyclerView.ViewHolder {
         linearLayout = (LinearLayout) itemView.findViewById(R.id.timeBackground);
         time_remaining = (TextView) itemView.findViewById(R.id.time_remaining);
         finishTaskButton = (Button) itemView.findViewById(R.id.finishButton);
+        bottomBar = (LinearLayout) itemView.findViewById(R.id.bottomBar);
     }
 }
