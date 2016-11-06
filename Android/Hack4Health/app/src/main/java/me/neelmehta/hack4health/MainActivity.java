@@ -73,6 +73,14 @@ public class MainActivity extends AppCompatActivity {
     public void createTimer(TaskModal task) {
         Intent serviceIntent = new Intent(this, TimerService.class);
         serviceIntent.putExtra("task", task);
+        serviceIntent.putExtra("isCreate", true);
+        startService(serviceIntent);
+    }
+
+    public void removeTimer(TaskModal task) {
+        Intent serviceIntent = new Intent(this, TimerService.class);
+        serviceIntent.putExtra("task", task);
+        serviceIntent.putExtra("isCreate", false);
         startService(serviceIntent);
     }
 }

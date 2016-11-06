@@ -3,6 +3,7 @@ package me.neelmehta.hack4health;
 import android.os.CountDownTimer;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 /**
@@ -11,11 +12,13 @@ import android.widget.TextView;
 
 public class MainRVActiveViewholder extends RecyclerView.ViewHolder {
     TextView title, time_remaining;
+    Button finishTaskButton;
     CountDownTimer countDownTimer;
 
     public MainRVActiveViewholder(View itemView) {
         super(itemView);
         title = (TextView) itemView.findViewById(R.id.item_title);
         time_remaining = (TextView) itemView.findViewById(R.id.time_remaining);
+        finishTaskButton = (Button) itemView.findViewById(R.id.finishButton);
     }
 }

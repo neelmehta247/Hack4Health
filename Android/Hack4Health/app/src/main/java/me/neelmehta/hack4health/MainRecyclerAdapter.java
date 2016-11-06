@@ -100,12 +100,68 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
+    private void update() {
+        Collections.sort(mDataset, new Comparator<TaskModal>() {
+            @Override
+            public int compare(TaskModal o1, TaskModal o2) {
+                return (int) -((o1.getTimeInMilliseconds() - (System.currentTimeMillis() - o1.getTimestamp())) -
+                        (o2.getTimeInMilliseconds() - (System.currentTimeMillis() - o2.getTimestamp())));
+            }
+        });
+
+        for (TaskModal task : mDataset) {
+            if (task.getTimeInMilliseconds() - (System.currentTimeMillis() - task.getTimestamp()) < 0) {
+                task.setTimeInMilliseconds(0);
+            }
+        }
+
+        ArrayList<TaskModal> earlyTasks = new ArrayList<>();
+        for (int i = 0; i < mDataset.size(); i++) {
+            if (mDataset.get(i).getTimeInMilliseconds() - (System.currentTimeMillis() - mDataset.get(i).getTimestamp()) > 0) {
+                earlyTasks.add(mDataset.get(i));
+            } else {
+                Collections.sort(earlyTasks, new Comparator<TaskModal>() {
+                    @Override
+                    public int compare(TaskModal o1, TaskModal o2) {
+                        return (int) ((o1.getTimeInMilliseconds() - (System.currentTimeMillis() - o1.getTimestamp())) -
+                                (o2.getTimeInMilliseconds() - (System.currentTimeMillis() - o2.getTimestamp())));
+                    }
+                });
+
+                for (TaskModal earlyTask : earlyTasks) {
+                    earlyTask.setTimeInMilliseconds(earlyTask.getTimeInMilliseconds() - (System.currentTimeMillis() - earlyTask.getTimestamp()));
+                }
+
+                for (int j = i; j < mDataset.size(); j++) {
+                    earlyTasks.add(mDataset.get(j));
+                }
+
+                break;
+            }
+        }
+
+        mDataset = earlyTasks;
+
+        notifyDataSetChanged();
+    }
+
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder, final int position) {
         if (getItemViewType(position) == ACTIVE) {
             final MainRVActiveViewholder holder = (MainRVActiveViewholder) viewHolder;
             holder.title.setText(mDataset.get(position).getName());
+
+            holder.finishTaskButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (holder.countDownTimer != null)
+                        holder.countDownTimer.cancel();
+                    mDataset.get(position).setTimeInMilliseconds(0);
+                    ((MainActivity) context).removeTimer(mDataset.get(position));
+                    update();
+                }
+            });
 
             if (holder.countDownTimer != null)
                 holder.countDownTimer.cancel();
@@ -122,8 +178,9 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                     @Override
                     public void onFinish() {
-                        holder.time_remaining.setText("0");
-                        ((MainActivity) context).mRecyclerView.setAdapter(new MainRecyclerAdapter(context, mDataset));
+                        mDataset.get(position).setTimeInMilliseconds(0);
+                        ((MainActivity) context).removeTimer(mDataset.get(position));
+                        update();
                     }
                 }.start();
             }

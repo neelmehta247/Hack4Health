@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:attr/selectableItemBackground"
@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="20dp">
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/item_title"
@@ -22,6 +22,7 @@
             android:layout_alignParentStart="true"
             android:ellipsize="end"
             android:maxLines="1"
+            android:text="fuebiw"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -33,8 +34,18 @@
             android:layout_alignParentRight="true"
             android:ellipsize="end"
             android:maxLines="1"
+            android:text="fuebiw"
             android:textSize="20sp"
             android:textStyle="bold" />
     </RelativeLayout>
 
-</RelativeLayout>
+    <Button
+        android:id="@+id/finishButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:text="Finish Task" />
+</LinearLayout>
