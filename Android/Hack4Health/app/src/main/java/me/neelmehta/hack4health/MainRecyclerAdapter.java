@@ -3,6 +3,7 @@ package me.neelmehta.hack4health;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.CountDownTimer;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -155,6 +156,18 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (getItemViewType(position) == ACTIVE) {
             final MainRVActiveViewholder holder = (MainRVActiveViewholder) viewHolder;
             holder.title.setText(mDataset.get(position).getName());
+
+            if (mDataset.get(position).getName().toLowerCase().contains("cloth")) {
+                holder.imageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_shirt));
+            } else if (mDataset.get(position).getName().toLowerCase().contains("cook") ||
+                    mDataset.get(position).getName().toLowerCase().contains("food")) {
+                holder.imageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_chicken));
+            } else if (mDataset.get(position).getName().toLowerCase().contains("pill") ||
+                    mDataset.get(position).getName().toLowerCase().contains("medicine")) {
+                holder.imageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_pill));
+            } else {
+                holder.imageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_add_white_24dp));
+            }
 
             float random = (float) (Math.random() * 6);
 
