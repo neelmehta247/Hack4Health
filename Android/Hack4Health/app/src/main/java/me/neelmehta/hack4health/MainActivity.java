@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
     public RecyclerView mRecyclerView;
@@ -23,6 +24,78 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Date date = new Date(System.currentTimeMillis());
+        String day = date.toString().substring(0, 3);
+        String month = date.toString().substring(4, 8);
+        String dom = date.toString().substring(8, 10);
+        String year = date.toString().substring(date.toString().length() - 4);
+
+        switch (day) {
+            case "Mon":
+                day = "Monday";
+                break;
+            case "Tue":
+                day = "Tuesday";
+                break;
+            case "Wed":
+                day = "Wednesday";
+                break;
+            case "Thu":
+                day = "Thursday";
+                break;
+            case "Fri":
+                day = "Friday";
+                break;
+            case "Sat":
+                day = "Saturday";
+                break;
+            case "Sun":
+                day = "Sunday";
+                break;
+            default:
+        }
+
+        switch (month) {
+            case "Jan":
+                month = "January";
+                break;
+            case "Feb":
+                month = "February";
+                break;
+            case "Mar":
+                month = "March";
+                break;
+            case "Apr":
+                month = "April";
+                break;
+            case "May":
+                month = "May";
+                break;
+            case "Jun":
+                month = "June";
+                break;
+            case "Jul":
+                month = "July";
+                break;
+            case "Aug":
+                month = "August";
+                break;
+            case "Sep":
+                month = "September";
+                break;
+            case "Oct":
+                month = "October";
+                break;
+            case "Nov":
+                month = "November";
+                break;
+            case "Dec":
+                month = "December";
+                break;
+        }
+
+        getSupportActionBar().setTitle(day + " - " + month + dom + ", " + year);
 
         dbHandler = DatabaseHandler.getSingleton(this);
 
