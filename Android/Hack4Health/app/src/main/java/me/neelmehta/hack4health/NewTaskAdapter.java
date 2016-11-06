@@ -47,7 +47,8 @@ public class NewTaskAdapter extends RecyclerView.Adapter<NewTaskViewholder> {
                 @Override
                 public void onClick(View v) {
                     View view = inflater.inflate(R.layout.customise_dialog, null);
-                    final TextInputEditText taskName = (TextInputEditText) view.findViewById(R.id.task_name);
+                    final TextInputEditText taskName =
+                            (TextInputEditText) view.findViewById(R.id.task_name);
                     final TextInputEditText time = (TextInputEditText) view.findViewById(R.id.time);
 
                     new AlertDialog.Builder(context)
@@ -55,15 +56,25 @@ public class NewTaskAdapter extends RecyclerView.Adapter<NewTaskViewholder> {
                             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    if (("".equals(taskName.getText().toString())) || ("".equals(time.getText().toString()))) {
-                                        Toast.makeText(context, "Enter some values in the fields", Toast.LENGTH_LONG).show();
+                                    if (("".equals(taskName.getText().toString())) ||
+                                            ("".equals(time.getText().toString()))) {
+                                        Toast.makeText(context, "Enter some values in the fields",
+                                                Toast.LENGTH_LONG).show();
                                     } else {
                                         SharedPreferences.Editor editor = mySharedPreferences.edit();
                                         System.out.println(Long.valueOf(time.getText().toString()));
-                                        editor.putString("tasks", mySharedPreferences.getString("tasks", "")
-                                                + "|" + taskName.getText().toString());
-                                        editor.putLong(taskName.getText().toString(), Long.valueOf(time.getText().toString()) * 60000);
+                                        if (!mySharedPreferences.getString("tasks", "").toLowerCase()
+                                                .contains(taskName.getText().toString()))
+                                            editor.putString("tasks",
+                                                    mySharedPreferences.getString("tasks", "")
+                                                            + "|" + taskName.getText().toString());
+                                        editor.putLong(taskName.getText().toString(),
+                                                Long.valueOf(time.getText().toString()) * 60000);
                                         editor.apply();
+
+                                        tasks.add(taskName.getText().toString());
+                                        times.add(Long.valueOf(time.getText().toString()) * 60000);
+                                        notifyDataSetChanged();
                                     }
                                 }
                             })
@@ -81,8 +92,10 @@ public class NewTaskAdapter extends RecyclerView.Adapter<NewTaskViewholder> {
                 @Override
                 public void onClick(View v) {
                     View view = inflater.inflate(R.layout.customise_dialog, null);
-                    final TextInputEditText taskName = (TextInputEditText) view.findViewById(R.id.task_name);
-                    final TextInputEditText time = (TextInputEditText) view.findViewById(R.id.time);
+                    final TextInputEditText taskName =
+                            (TextInputEditText) view.findViewById(R.id.task_name);
+                    final TextInputEditText time =
+                            (TextInputEditText) view.findViewById(R.id.time);
                     taskName.setText(tasks.get(position));
                     taskName.setEnabled(false);
                     time.setText(String.valueOf((times.get(position) / (1000 * 60))));
@@ -93,11 +106,13 @@ public class NewTaskAdapter extends RecyclerView.Adapter<NewTaskViewholder> {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     if (("".equals(time.getText().toString()))) {
-                                        Toast.makeText(context, "Enter some values in the fields", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(context, "Enter some values in the fields",
+                                                Toast.LENGTH_LONG).show();
                                     } else {
                                         SharedPreferences.Editor editor = mySharedPreferences.edit();
                                         System.out.println(Long.valueOf(time.getText().toString()));
-                                        editor.putLong(taskName.getText().toString(), Long.valueOf(time.getText().toString()) * 60000);
+                                        editor.putLong(taskName.getText().toString(),
+                                                Long.valueOf(time.getText().toString()) * 60000);
                                         editor.apply();
                                     }
                                 }
@@ -111,6 +126,11 @@ public class NewTaskAdapter extends RecyclerView.Adapter<NewTaskViewholder> {
                 }
             });
         }
+    }
+
+    public void refreshData(ArrayList<String> tasks) {
+        this.tasks = tasks;
+        notifyDataSetChanged();
     }
 
     @Override

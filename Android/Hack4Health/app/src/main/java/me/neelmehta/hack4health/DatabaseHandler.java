@@ -120,5 +120,4 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 new String[]{String.valueOf(task.getId())});
         return result;
     }
-
 }
